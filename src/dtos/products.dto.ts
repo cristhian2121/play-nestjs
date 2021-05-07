@@ -5,10 +5,13 @@ import {
   IsString,
   IsNumber,
   IsUrl,
-  IsNotEmpty
+  IsNotEmpty,
+  IsPositive
 } from 'class-validator'
+import { PartialType } from '@nestjs/mapped-types'
 
 // documentation
+// https://github.com/typestack/class-validator
 // https://trilon.io/blog/introducing-mapped-types-for-nestjs
 
 /**
@@ -25,6 +28,7 @@ export class CreateProductDto {
 
   @IsNumber()
   @IsNotEmpty()
+  @IsPositive()
   readonly price: number;
 
   @IsNumber()
@@ -38,12 +42,7 @@ export class CreateProductDto {
 
 /**
  * Dto to update product
+ * I use partiialType to re used code th easy form
  */
-export class UpdateProductDto {
-  @IsString()
-  readonly name?: string;
-  readonly description?: string;
-  readonly price?: number;
-  readonly stock?: number;
-  readonly image?: string;
+export class UpdateProductDto extends PartialType(CreateProductDto) {
 }
